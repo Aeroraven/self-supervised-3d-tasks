@@ -32,6 +32,7 @@ def rotate_batch(x, y=None):
 
 
 def rotate_batch_3d(x, y=None):
+    #print(x.shape)
     batch_size = x.shape[0]
     y = np.zeros((batch_size, 10))
     rotated_batch = []

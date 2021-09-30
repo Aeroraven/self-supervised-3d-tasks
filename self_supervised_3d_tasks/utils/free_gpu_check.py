@@ -6,7 +6,7 @@ import pandas as pd
 
 def aquire_free_gpus(amount=1, use_gpu=None, **kwargs):
     gpu_stats = subprocess.check_output(
-        ["nvidia-smi", "--format=csv", "--query-gpu=memory.used,memory.free"]
+        [r"C:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi", "--format=csv", "--query-gpu=memory.used,memory.free"]
     )
     gpu_df = pd.read_csv(
         BytesIO(gpu_stats), names=["memory.used", "memory.free"], skiprows=1
@@ -30,7 +30,7 @@ def aquire_free_gpus(amount=1, use_gpu=None, **kwargs):
         raise ValueError("The requested amount of GPUs is not existing.")
     for i in range(amount):
         max_gpu = gpu_df.index[0]
-        if gpu_df.loc[max_gpu]["memory.used"] > 50:
+        if gpu_df.loc[max_gpu]["memory.used"] > 1501:
             error = "The requested amount of GPUs are not available currently."
             if use_gpu:
                 error += " Try removing the 'use_gpu' flag."

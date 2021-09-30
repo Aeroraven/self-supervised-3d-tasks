@@ -1,6 +1,6 @@
 import os
-
 import numpy as np
+from self_supervised_3d_tasks.adaptive.nifti_loader import nifti_load
 from self_supervised_3d_tasks.data.generator_base import DataGeneratorBase
 
 
@@ -14,16 +14,14 @@ class DataGeneratorUnlabeled3D(DataGeneratorBase):
     def data_generation(self, list_files_temp):
         data_x = []
         data_y = []
-
         for file_name in list_files_temp:
             path_to_image = "{}/{}".format(self.path_to_data, file_name)
             if os.path.isfile(path_to_image):
-                img = np.load(path_to_image)
+                img = nifti_load(path_to_image,True,True)
                 img = (img - img.min()) / (img.max() - img.min())
 
                 data_x.append(img)
                 data_y.append(0)  # just to keep the dims right
-
         data_x = np.stack(data_x)
         data_y = np.stack(data_y)
 
